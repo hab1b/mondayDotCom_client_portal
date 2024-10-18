@@ -1,70 +1,103 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Monday.com Client Portal
 
-## Available Scripts
+Overview
 
-In the project directory, you can run:
+This project is a custom client portal plugin for Monday.com. It is designed to securely share selected information and board items with clients. The portal mirrors key elements from a Monday.com board, allowing clients to see specific tasks, statuses, and priority levels assigned to them. The project leverages Monday.com’s GraphQL API to fetch and display data dynamically.
 
-### `npm start`
+Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+	•	Client-specific views: Clients can see only the items relevant to them.
+	•	Board item display: Dynamically fetches and displays Monday.com board items with statuses, priorities, and text.
+	•	Real-time refresh: Simple refresh button for fetching the latest updates from the board.
+	•	OAuth2 Authentication: Secure authentication for accessing Monday.com data.
+	•	Responsive Design: Adapted for both desktop and mobile.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Technologies
 
-### `npm test`
+	•	Frontend: React, Monday UI Components, CSS for styling.
+	•	Backend: Node.js, Express, Axios for handling API requests to Monday.com.
+	•	API Integration: Monday.com GraphQL API for querying boards and items.
+	•	Authentication: OAuth2 flow for securely accessing Monday.com data.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Setup and Installation
 
-### `npm run build`
+1. Clone the repository:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+git clone https://github.com/hab1b/mondayDotCom_client_portal.git
+cd mondayDotCom_client_portal
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install dependencies:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+npm install
 
-### `npm run eject`
+3. Set up environment variables:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Create a .env file in the root directory and add the following:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+CLIENT_ID=your_monday_client_id
+CLIENT_SECRET=your_monday_client_secret
+SESSION_KEY=your_random_session_key
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. Run the backend server:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+npm run server
 
-## Learn More
+The server will start at http://localhost:5001.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+5. Run the frontend (React app):
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+npm start
 
-### Code Splitting
+The React app will start at http://localhost:3000.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Usage
 
-### Analyzing the Bundle Size
+	1.	Go to the homepage at http://localhost:3000.
+	2.	Authenticate via Monday.com by following the OAuth flow.
+	3.	Once authenticated, you can view the board items, status, and priority in the portal.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Project Structure
 
-### Making a Progressive Web App
+mondayDotCom_client_portal/
+├── client/                # Frontend React application
+│   ├── src/
+│   │   ├── components/    # Reusable components
+│   │   ├── App.js         # Main React component
+│   │   └── index.js       # Entry point
+├── server/                # Backend Express application
+│   ├── server.js          # Main server script
+│   ├── api.js             # Monday.com API request helper
+├── .env                   # Environment variables (not included in repo)
+├── README.md              # This README file
+└── package.json           # Node dependencies and scripts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+API Integration
 
-### Advanced Configuration
+The project uses Monday.com’s GraphQL API to query the following:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+	•	Boards and Items: Fetches boards and items associated with specific clients.
+	•	Status and Priority Mapping: Maps status and priority index values from Monday.com to readable strings (e.g., “Working on it”, “High Priority”).
 
-### Deployment
+Example GraphQL Query
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+query {
+  boards(ids: 123456789) {
+    items {
+      name
+      column_values {
+        id
+        text
+        value
+      }
+    }
+  }
+}
 
-### `npm run build` fails to minify
+Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Contributions are welcome! Please submit a pull request or open an issue for discussion.
+
+License
+
+This project is licensed under the MIT License.
